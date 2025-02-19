@@ -11,6 +11,7 @@ import authRoutes from './routes/auth';
 import kycRoutes from './routes/kyc';
 import adminRoutes from './routes/admin';
 import { errorHandler } from './middleware/errorHandler';
+import { seedAdmin } from './seed';
 
 dotenv.config();
 
@@ -34,7 +35,10 @@ app.use('/uploads', express.static('uploads'));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI as string)
-  .then(() => console.log('MongoDB connected'))
+  .then(() => {
+    console.log('MongoDB connected')
+    seedAdmin();
+  })
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // routes

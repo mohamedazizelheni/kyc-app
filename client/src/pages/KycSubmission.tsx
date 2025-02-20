@@ -46,32 +46,69 @@ const KycSubmission: React.FC = () => {
     }
   };
 
+  // Helper function to render a colored chip for the status
+  const renderStatusChip = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return (
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+            Pending
+          </span>
+        );
+      case 'approved':
+        return (
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+            Approved
+          </span>
+        );
+      case 'rejected':
+        return (
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+            Rejected
+          </span>
+        );
+      default:
+        return (
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+            {status}
+          </span>
+        );
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <div className="bg-white p-6 rounded shadow-md w-full max-w-lg">
-        <h2 className="text-2xl font-bold mb-4 text-center">KYC Submission</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-4">
+      <div className="bg-white bg-opacity-90 p-8 rounded-2xl shadow-2xl w-full max-w-lg transition transform hover:-translate-y-1 hover:shadow-xl">
+        <h2 className="text-3xl font-extrabold mb-6 text-center text-gray-800">KYC Submission</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Upload ID Document:</label>
+          <div className="mb-6">
+            <label className="block text-gray-700 text-lg font-medium mb-2">
+              Upload ID Document:
+            </label>
             <input
               type="file"
               onChange={handleFileChange}
               accept=".png,.jpg,.jpeg,.pdf"
-              className="block w-full text-gray-700 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="block w-full text-gray-700 p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold shadow hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
           >
             Submit KYC
           </button>
         </form>
-        {message && <p className="mt-4 text-center text-gray-800">{message}</p>}
-        {submissionStatus && (
-          <p className="mt-2 text-center">
-            Current KYC Status: <strong>{submissionStatus}</strong>
+        {message && (
+          <p className="mt-6 text-center text-lg text-gray-800 transition duration-300 ease-in-out">
+            {message}
           </p>
+        )}
+        {submissionStatus && (
+          <div className="mt-4 flex items-center justify-center space-x-2">
+            <p className="text-lg text-gray-800">Current KYC Status:</p>
+            {renderStatusChip(submissionStatus)}
+          </div>
         )}
       </div>
     </div>

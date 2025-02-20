@@ -17,6 +17,7 @@ interface Submission {
   };
   status: string;
   submittedAt: string;
+  documentPath: string;
 }
 
 const AdminDashboard: React.FC = () => {
@@ -70,25 +71,25 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  // render a status chip with soft colors and an icon
+  // Helper: render a status chip with soft colors and an icon
   const renderStatusChip = (status: string) => {
     if (status === 'pending') {
       return (
-        <span className="flex items-center space-x-1 px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
           <IconComponent icon={FaHourglassHalf} />
           <span>Pending</span>
         </span>
       );
     } else if (status === 'approved') {
       return (
-        <span className="flex items-center space-x-1 px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
           <IconComponent icon={FaCheckCircle} />
           <span>Approved</span>
         </span>
       );
     } else if (status === 'rejected') {
       return (
-        <span className="flex items-center space-x-1 px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-medium">
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
           <IconComponent icon={FaTimesCircle} />
           <span>Rejected</span>
         </span>
@@ -159,6 +160,9 @@ const AdminDashboard: React.FC = () => {
                   Email
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                  Document
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
                   Status
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
@@ -174,16 +178,26 @@ const AdminDashboard: React.FC = () => {
                 <tr key={sub._id} className="hover:bg-gray-50 transition">
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{sub.user.name}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{sub.user.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm w-20">{renderStatusChip(sub.status)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <a
+                      href={` http://localhost:5000/${sub.documentPath}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 hover:underline"
+                    >
+                      View Document
+                    </a>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">{renderStatusChip(sub.status)}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                     {new Date(sub.submittedAt).toLocaleString()}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
                     {sub.status === 'pending' ? (
                       <div className="flex space-x-2">
                         <button
                           onClick={() => updateStatus(sub._id, 'approved')}
-                          className="flex items-center space-x-1 px-3 py-1 rounded hover:bg-green-200 transition"
+                          className="flex items-center space-x-1 bg-green-100 text-green-700 px-3 py-1 rounded hover:bg-green-200 transition"
                         >
                           <IconComponent icon={FaCheckCircle} />
                           <span className="text-xs font-medium">Approve</span>

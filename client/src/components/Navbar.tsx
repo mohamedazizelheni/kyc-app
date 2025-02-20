@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link to="/" className="text-2xl font-bold hover:text-gray-200">
+            <Link to="/" className="text-2xl font-bold ">
               KYC App
             </Link>
           </div>
@@ -34,29 +34,29 @@ const Navbar: React.FC = () => {
             <div className="ml-10 flex items-center space-x-6">
               {token ? (
                 <>
-                  <Link to="/" className="hover:text-gray-200">
+                  <Link to="/" >
                     Home
                   </Link>
                   {role === 'User' && (
-                    <Link to="/kyc" className="hover:text-gray-200">
+                    <Link to="/kyc" >
                       My KYC
                     </Link>
                   )}
                   {role === 'Admin' && (
-                    <Link to="/admin" className="hover:text-gray-200">
+                    <Link to="/admin">
                       Admin Dashboard
                     </Link>
                   )}
-                  <button onClick={handleLogout} className="hover:text-gray-200">
+                  <button onClick={handleLogout} >
                     Logout
                   </button>
                 </>
               ) : (
                 <>
-                  <Link to="/login" className="hover:text-gray-200">
+                  <Link to="/login" >
                     Login
                   </Link>
-                  <Link to="/register" className="hover:text-gray-200">
+                  <Link to="/register" >
                     Register
                   </Link>
                 </>
@@ -85,7 +85,7 @@ const Navbar: React.FC = () => {
               <Link
                 to="/"
                 onClick={() => setIsOpen(false)}
-                className="block hover:text-gray-200"
+                className="block "
               >
                 Home
               </Link>
@@ -93,7 +93,7 @@ const Navbar: React.FC = () => {
                 <Link
                   to="/kyc"
                   onClick={() => setIsOpen(false)}
-                  className="block hover:text-gray-200"
+                  className="block "
                 >
                   My KYC
                 </Link>
@@ -102,7 +102,7 @@ const Navbar: React.FC = () => {
                 <Link
                   to="/admin"
                   onClick={() => setIsOpen(false)}
-                  className="block hover:text-gray-200"
+                  className="block "
                 >
                   Admin Dashboard
                 </Link>
@@ -112,7 +112,7 @@ const Navbar: React.FC = () => {
                   handleLogout();
                   setIsOpen(false);
                 }}
-                className="block w-full text-left hover:text-gray-200"
+                className="block w-full text-left "
               >
                 Logout
               </button>
@@ -122,14 +122,14 @@ const Navbar: React.FC = () => {
               <Link
                 to="/login"
                 onClick={() => setIsOpen(false)}
-                className="block hover:text-gray-200"
+                className="block "
               >
                 Login
               </Link>
               <Link
                 to="/register"
                 onClick={() => setIsOpen(false)}
-                className="block hover:text-gray-200"
+                className="block "
               >
                 Register
               </Link>

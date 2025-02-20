@@ -1,7 +1,9 @@
 # Fullstack KYC App
 
 ## Overview
-A full-stack web application for KYC (Know Your Customer) compliance workflows, built with React (TypeScript) on the frontend and Express.js (TypeScript) with MongoDB on the backend.
+A full-stack web application for KYC (Know Your Customer) compliance workflows.  
+- **Backend:** Express.js (TypeScript) with MongoDB  
+- **Frontend:** React (TypeScript) with Tailwind CSS
 
 ## API Documentation
 Access the API documentation via Swagger UI at:  
@@ -23,3 +25,21 @@ This documentation provides details on:
 1. Navigate to the `server/` directory:
    ```bash
    cd server
+2. Install dependencies:
+   npm install 
+
+You can Run tests:
+npm run test
+
+## Frontend Setup
+
+### Prerequisites
+- Node.js
+- npm
+
+### Installation
+1. Navigate to the `client/` directory:
+   ```bash
+   cd server
+2. Install dependencies:
+   npm install 

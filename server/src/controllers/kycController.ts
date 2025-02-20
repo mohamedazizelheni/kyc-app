@@ -1,25 +1,49 @@
 import { Request, Response } from 'express';
-import KycSubmission from '../models/KycSubmission';
+import KycSubmission,{ IKycSubmission } from '../models/KycSubmission';
 
 export const submitKyc = async (req: Request, res: Response) => {
   try {
-    // Multer will attach the uploaded file to req.file
-    const documentPath = req.file?.path;
-    if (!documentPath) {
-      return res.status(400).json({ message: 'No document uploaded' });
+    const userId = (req as any).user.id;
+
+    // Check if the user already has a KYC submission
+    const existingSubmission: IKycSubmission | null = await KycSubmission.findOne({ user: userId });
+
+    // If there's an existing submission, enforce rules based on its status
+    if (existingSubmission) {
+      if (existingSubmission.status === 'pending') {
+        return res.status(400).json({ message: 'KYC submission is already pending. Please wait for approval or rejection before resubmitting.' });
+      } else if (existingSubmission.status === 'approved') {
+        return res.status(400).json({ message: 'KYC is already approved. No need to resubmit.' });
+      } else if (existingSubmission.status === 'rejected') {
+        // If rejected, update the existing submission with the new document and reset status to pending.
+        if (!req.file) {
+          return res.status(400).json({ message: 'Document file is required for resubmission.' });
+        }
+        existingSubmission.documentPath = req.file.path;
+        existingSubmission.status = 'pending';
+        existingSubmission.submittedAt = new Date();
+        await existingSubmission.save();
+        return res.status(201).json({ message: 'KYC resubmission received', submission: existingSubmission });
+      }
     }
 
-    // Create a new KYC submission associated with the authenticated user
+    // If no submission exists, create a new one
+    if (!req.file) {
+      return res.status(400).json({ message: 'Document file is required.' });
+    }
+
     const newSubmission = new KycSubmission({
-      user: (req as any).user.id,
-      documentPath,
+      user: userId,
+      documentPath: req.file.path,
     });
     await newSubmission.save();
-    res.status(201).json({ message: 'KYC submission received', submission: newSubmission });
+    return res.status(201).json({ message: 'KYC submission received', submission: newSubmission });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 export const getUserKycStatus = async (req: Request, res: Response) => {
   try {

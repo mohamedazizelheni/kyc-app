@@ -6,6 +6,8 @@ import mongoose from 'mongoose';
 import rateLimit from 'express-rate-limit';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swagger';
+import fs from 'fs';
+import path from 'path';
 
 import authRoutes from './routes/auth';
 import kycRoutes from './routes/kyc';
@@ -17,6 +19,12 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT ;
+
+const uploadsDir = path.join(__dirname, '..', 'uploads');
+
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
 
 // Rate Limiting: limit each IP to 100 requests per 15 minutes
 const limiter = rateLimit({
@@ -47,7 +55,9 @@ app.use('/api/kyc', kycRoutes);
 app.use('/api/admin', adminRoutes);
 
 // Swagger API Docs
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+if (process.env.NODE_ENV !== 'production') {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+}
 
 app.get('/', (req, res) => {
   res.send('API is working');

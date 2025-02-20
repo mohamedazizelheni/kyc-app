@@ -4,7 +4,7 @@ import KycSubmission from '../models/KycSubmission';
 
 export const getDashboardStats = async (req: Request, res: Response) => {
   try {
-    const totalUsers = await User.countDocuments();
+    const totalUsers = await User.countDocuments({ role: 'User' });
     const totalKycSubmissions = await KycSubmission.countDocuments();
     const pendingCount = await KycSubmission.countDocuments({ status: 'pending' });
     const approvedCount = await KycSubmission.countDocuments({ status: 'approved' });

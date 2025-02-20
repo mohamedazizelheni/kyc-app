@@ -7,9 +7,9 @@ export const seedAdmin = async () => {
     const adminExists = await User.findOne({ role: 'Admin' });
     if (!adminExists) {
       // Use environment variables if provided, otherwise default values
-      const adminName = process.env.ADMIN_NAME || 'Admin';
-      const adminEmail = process.env.ADMIN_EMAIL || 'admin@kyc.com';
-      const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+      const adminName = process.env.ADMIN_NAME as string;
+      const adminEmail = process.env.ADMIN_EMAIL as string;
+      const adminPassword = process.env.ADMIN_PASSWORD as string;
 
       // Hash the password
       const salt = await bcrypt.genSalt(10);

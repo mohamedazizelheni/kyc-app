@@ -180,7 +180,7 @@ const AdminDashboard: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{sub.user.email}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <a
-                      href={` http://localhost:5000/${sub.documentPath}`}
+                      href={`${process.env.REACT_APP_BACKEND_URL}/${sub.documentPath}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 hover:underline"

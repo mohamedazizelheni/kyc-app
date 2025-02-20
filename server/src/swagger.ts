@@ -1,5 +1,8 @@
 import swaggerJSDoc from 'swagger-jsdoc';
+import dotenv from 'dotenv';
+dotenv.config();
 
+const serverUrl = process.env.SWAGGER_SERVER_URL
 const options: swaggerJSDoc.Options = {
   definition: {
     openapi: '3.0.0',
@@ -10,7 +13,7 @@ const options: swaggerJSDoc.Options = {
     },
     servers: [
       {
-        url: 'http://localhost:5000',
+        url: serverUrl,
       },
     ],
     components: {
@@ -24,7 +27,6 @@ const options: swaggerJSDoc.Options = {
     },
     security: [{ bearerAuth: [] }],
   },
-  // Paths to files containing OpenAPI definitions (using JSDoc comments)
   apis: ['./src/routes/*.ts'],
 };
 

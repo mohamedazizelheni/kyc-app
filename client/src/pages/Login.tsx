@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import api from '../services/api';
@@ -14,7 +14,14 @@ interface LoginValues {
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const [searchParams] = useSearchParams();
+  const sessionExpired = searchParams.get('sessionExpired');
 
+  useEffect(() => {
+    if (sessionExpired) {
+      alert('Your session has expired. Please log in again.');
+    }
+  }, [sessionExpired]);
   const initialValues: LoginValues = { email: '', password: '' };
 
   const validationSchema = Yup.object({

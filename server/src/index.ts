@@ -12,6 +12,7 @@ import path from 'path';
 import authRoutes from './routes/auth';
 import kycRoutes from './routes/kyc';
 import adminRoutes from './routes/admin';
+import { errorHandler } from './middleware/errorHandler';
 import { seedAdmin } from './seed';
 
 dotenv.config();
@@ -62,7 +63,7 @@ app.get('/', (req, res) => {
   res.send('API is working');
 });
 
-/*app.use((req, res, next) => {
+app.use((req, res, next) => {
     const error = new Error('Route not found');
     res.status(404);
     next(error);
@@ -70,7 +71,6 @@ app.get('/', (req, res) => {
 
 // Global Error Handling 
 app.use(errorHandler);
-*/
 
 // start the server if not in test mode
 if (process.env.NODE_ENV !== 'test') {

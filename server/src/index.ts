@@ -22,9 +22,14 @@ const PORT = process.env.PORT ;
 
 const uploadsDir = path.join(__dirname, '..', 'uploads');
 
+console.log('Checking uploads directory at:', uploadsDir);
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
+  console.log('Uploads folder created at:', uploadsDir);
+} else {
+  console.log('Uploads folder exists at:', uploadsDir);
 }
+
 
 // Rate Limiting: limit each IP to 100 requests per 15 minutes
 const limiter = rateLimit({

@@ -22,8 +22,13 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT;
 const uploadsDir = path_1.default.join(__dirname, '..', 'uploads');
+console.log('Checking uploads directory at:', uploadsDir);
 if (!fs_1.default.existsSync(uploadsDir)) {
     fs_1.default.mkdirSync(uploadsDir);
+    console.log('Uploads folder created at:', uploadsDir);
+}
+else {
+    console.log('Uploads folder exists at:', uploadsDir);
 }
 // Rate Limiting: limit each IP to 100 requests per 15 minutes
 const limiter = (0, express_rate_limit_1.default)({
